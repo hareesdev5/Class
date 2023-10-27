@@ -87,7 +87,9 @@ const deleteCoupon = (req,res)=>{
 }
 
 
-export default {
+// export default {
+
+module.exports = {
     getAllCoupons,
     getCouponById,
     createCoupon,

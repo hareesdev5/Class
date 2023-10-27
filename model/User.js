@@ -1,4 +1,5 @@
- import mongoose from './index.js'
+//  import mongoose from './index.js'
+const mongoose = require('./index')
 
 const validateEmail = (e)=>{
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -21,4 +22,5 @@ const userSchema = new mongoose.Schema({
 
 let userModel = mongoose.model('user',userSchema)
 
-export default userModel
+// export default userModel
+module.exports = userModel

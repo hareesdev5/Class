@@ -1,5 +1,7 @@
-import Auth  from "../common/Auth.js"
-import userModel from "../model/User.js"
+// import Auth  from "../common/Auth.js"
+// import userModel from "../model/User.js"
+const Auth = require('../common/Auth')
+const userModel = require('../model/User')
 
 const getUser = async (req, res) => {
   try {
@@ -109,7 +111,9 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-export default {
+// export default {
+
+module.exports = {
   getUser,
   getUserById,
   createUser,
