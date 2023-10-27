@@ -1,10 +1,10 @@
-const express = require("express");
+import express from "express"
 const router = express.Router();
 
-const couponRouter = require("./Coupons");
-const userRouter = require('./User')
+import couponRouter from "./Coupons.js"
+import userRouter from './User.js'
 
 router.use("/coupon", couponRouter);
 router.use('/user',userRouter)
 
-module.exports = router;
+export default router;

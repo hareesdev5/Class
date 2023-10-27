@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 
 
 
@@ -9,4 +9,4 @@ try {
 }
 
 
-module.exports = mongoose
+export default mongoose

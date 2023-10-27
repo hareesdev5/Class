@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express"
 const routes = express.Router();
 
-const couponController = require("../controller/Coupons");
+import couponController from "../controller/Coupons.js"
 
 routes.get("/", couponController.getAllCoupons);
 routes.get("/:id", couponController.getCouponById);
@@ -9,4 +9,4 @@ routes.post("/", couponController.createCoupon);
 routes.put("/:id", couponController.editCoupon);
 routes.delete("/:id", couponController.deleteCoupon);
 
-module.exports = routes;
+export default routes;

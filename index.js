@@ -1,13 +1,13 @@
-const express = require('express')
+import express from 'express'
 const app = express()
-const cors = require('cors')
+import cors from 'cors'
 
-const dotenv = require('dotenv')
+import dotenv from 'dotenv'
 dotenv.config()
 
 const PORT = process.env.PORT
 
-const appRouter = require('./routes/index')
+import appRouter from './routes/index.js'
 
 app.use(cors())
 

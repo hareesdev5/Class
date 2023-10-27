@@ -1,4 +1,5 @@
-const userModel = require("../model/User");
+import Auth  from "../common/Auth.js"
+import userModel from "../model/User.js"
 
 const getUser = async (req, res) => {
   try {
@@ -40,6 +41,7 @@ const createUser = async (req, res) => {
   try {
     let user = await userModel.findOne({ email: req.body.email });
     if (!user) {
+      res.body.password = await Auth.hashPassword(req.body.password)
       await userModel.create(req.body);
       res.status(201).send({
         message: "User Created Successfully",
@@ -107,7 +109,7 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getUser,
   getUserById,
   createUser,
