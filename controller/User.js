@@ -1,11 +1,9 @@
-// import Auth  from "../common/Auth.js"
-// import userModel from "../model/User.js"
-const Auth = require('../common/Auth')
-const userModel = require('../model/User')
+const userModel = require("../model/User");
+const Auth = require("../common/Auth");
 
 const getUser = async (req, res) => {
   try {
-    let user = await userModel.find();
+    let user = await userModel.find({}, { Password: 0 });
     res.status(200).send({
       message: "Data Fetched Successfully",
       count: user.length,
@@ -14,7 +12,7 @@ const getUser = async (req, res) => {
   } catch (error) {
     res.status(500).send({
       message: "Internal Server Error",
-    });     
+    });
   }
 };
 
@@ -28,7 +26,7 @@ const getUserById = async (req, res) => {
       });
     } else {
       res.status(400).send({
-        message: "Invalid User",
+        message: "Invalid ID",
       });
     }
   } catch (error) {
@@ -43,7 +41,7 @@ const createUser = async (req, res) => {
   try {
     let user = await userModel.findOne({ email: req.body.email });
     if (!user) {
-      res.body.password = await Auth.hashPassword(req.body.password)
+      req.body.Password = await Auth.hashPassword(req.body.Password);
       await userModel.create(req.body);
       res.status(201).send({
         message: "User Created Successfully",
@@ -111,7 +109,42 @@ const deleteUserById = async (req, res) => {
   }
 };
 
-// export default {
+const login = async (req, res) => {
+  try {
+    let user = await userModel.findOne({ email: req.body.email });
+    if (user) {
+      let hashCompare = await Auth.hashCompare(
+        req.body.Password,
+        user.Password
+      );
+      if (hashCompare) {
+        let token = await Auth.createToken({
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email,
+          role: user.role,
+        });
+        res.status(200).send({
+          message: "Login Successfully",
+          token,
+        });
+      } else {
+        res.status(400).send({
+          message: "Invalid Password",
+        });
+      }
+    } else {
+      res.status(400).send({
+        message: `User with ${req.body.email} does not exists`,
+      });
+    }
+  } catch (error) {
+    res.status(500).send({
+      message: "Internal Server Error",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   getUser,
@@ -119,4 +152,5 @@ module.exports = {
   createUser,
   editUserById,
   deleteUserById,
+  login,
 };
